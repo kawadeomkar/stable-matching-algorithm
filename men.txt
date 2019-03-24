@@ -1,0 +1,5 @@
+kendrick:rihanna, arianna, beyonce, nicki, kylie
+travis:kylie, rihanna, nicki, beyonce, arianna
+drake:rihanna, nicki, beyonce, arianna, kylie
+sean:rihanna, arianna, kylie, nicki, beyonce
+jay:beyonce, rihanna, kylie, nicki, arianna
