@@ -6,12 +6,12 @@ from stable_matching import *
 def preprocess(inputFile1, inputFile2):
 	big, little = {}, {}
 	# open first file 
-	with open(inputFile1) as ifile1:
+	with open(inputFile1, 'r') as ifile1:
 		for line in ifile1:
 			line = line.rstrip().split(':')
 			big[line[0]] = line[1].split(', ')
 	# open second file
-	with open(inputFile2) as ifile2:
+	with open(inputFile2, 'r') as ifile2:
 		for line in ifile2:
 			line = line.rstrip().split(':')
 			little[line[0]] = line[1].split(', ')
@@ -44,8 +44,12 @@ def printMatches(matches):
 	
 
 # save match results to output file
-def saveToOutfile(outfile):
-	print()
+def saveToOutfile(outfile, matches):
+	print("Saving to " + outfile)
+	with open(outfile, 'w') as ofile:
+		for match1, match2 in matches.items():
+			ofile.write(match1 + " : " + match2 + '\n')
+
 
 if __name__ == '__main__':
 	opts = ''
@@ -84,3 +88,5 @@ if __name__ == '__main__':
 		printMatches(matches)
 		# print accuracy of matches
 		matcher.accuracy()
+		# save to output file
+		saveToOutfile(outputFile, matches)
