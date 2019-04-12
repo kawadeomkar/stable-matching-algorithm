@@ -1,4 +1,5 @@
-# stable matching 
+# stable matching
+import copy 
 
 class StableMatching:
 	
@@ -6,21 +7,44 @@ class StableMatching:
 		'''
 		self.bigs: dictionary of bigs and their preferences
 		self.littles: dictionary of littles and their preferences
+		self.matches: matching result after running match function
 		'''
 		self.bigs = bigs
 		self.littles = littles
-	
-	def match():
+		self.matches = {}
+
+	def accuracy(self):
+		'''
+		Returns accuracy of matching
+		'''
+		littleScore, bigScore, length = 0, 0, 0
+		tempBigsDict = {}
+		
+		for little, big in self.matches.items():
+			# take the inverse index and divide by length of list (subtract 1 for base 0)
+			littleScore += float(len(self.littles[little]) - 1 - self.littles[little].index(big))/(len(self.littles[little]) - 1) 
+			tempBigsDict[self.matches[little]] = little
+			# TEMP, make class variable
+			length = len(self.littles[little])
+
+		for big, little in tempBigsDict.items():
+			# take the inverse index and divide by length of list (subtract 1 for base 0)
+			bigScore += float(len(self.bigs[big]) - 1 - self.bigs[big].index(little))/(len(self.bigs[big]) - 1) 
+		
+		print("Littles Accuracy: ", littleScore/length)
+		print("Bigs Accuracy: ", bigScore/length)	
+					
+	def match(self):
 		'''
 		creates copies of big and little preferences and runs gale shapley's stable
-		matching algorithm. 
+		matching algorithm (both are bipartite graphs). 
 		returns stable matching pairs
 		'''
 		matches = {}
 		
 		# get deep copies of both preference lists
-		bigPrefs = self.bigs.copy()
-		littlePrefs = self.littles.copy()
+		bigPrefs = copy.deepcopy(self.bigs)
+		littlePrefs = copy.deepcopy(self.littles)
 		currLittles = set()
 	
 		while len(matches) != len(self.bigs):
@@ -29,12 +53,12 @@ class StableMatching:
 					potentialLittle = preferences.pop(0)
 					if potentialLittle not in currLittles:
 						matches[potentialLittle] = big
-						curLittles.add(potentialLittle)
+						currLittles.add(potentialLittle)
 					else:
 						# check if  preference of current matching is less than  potential match
-						if self.littles[potentialLittle].indexOf(matches[potentialLittle]) > 
-							self.littles[potentialLittle].indexOf(big):
+						if self.littles[potentialLittle].index(matches[potentialLittle]) > self.littles[potentialLittle].index(big):
 							matches[potentialLittle] = big
+		self.matches = matches
 		return matches
 
 					

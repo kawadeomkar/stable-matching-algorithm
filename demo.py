@@ -1,9 +1,9 @@
 # demo.py
 import sys
 import getopt
+from stable_matching import *
 
-
-def preprocess(inputFile1, inputFile2, outputFile):
+def preprocess(inputFile1, inputFile2):
 	big, little = {}, {}
 	# open first file 
 	with open(inputFile1) as ifile1:
@@ -16,10 +16,23 @@ def preprocess(inputFile1, inputFile2, outputFile):
 			line = line.rstrip().split(':')
 			little[line[0]] = line[1].split(', ')
 
+	return big, little
 	
 # print if input is incorrect
 def printHelp():
 	print("Please enter in the format demo.py --ifile=<inputfile>,<inputfile> --ofile=<outputfile>")
+
+# print out preference list, formatted
+def printFormattedPrefList(bigs, littles):
+	print("---BIGS PREFERENCES---")
+	for big, prefList in bigs.items():
+		littlesList = ", ".join(prefList)
+		print(big + ": " + littlesList)
+				
+	print("---LITTLES PREFERENCES---")
+	for little, prefList in littles.items():
+		bigsList = ", ".join(prefList)
+		print(little+ ": " + bigsList)
 
 
 if __name__ == '__main__':
@@ -31,7 +44,6 @@ if __name__ == '__main__':
 
 	try:
 		opts, args = getopt.getopt(sys.argv[1:], "h", ["ifiles=", "ofile="])
-		print(opts)
 	except getopt.GetoptError:
 		printHelp()	
 	
@@ -52,4 +64,9 @@ if __name__ == '__main__':
 			elif '--ofile' in opt:
 				outputFile = opt[1]
 
-	preprocess(inputFile1, inputFile2, outputFile)
+		bigList, littleList = preprocess(inputFile1, inputFile2)
+		printFormattedPrefList(bigList, littleList)	
+		
+		matcher = StableMatching(bigList, littleList)
+		print(matcher.match())
+		matcher.accuracy()
