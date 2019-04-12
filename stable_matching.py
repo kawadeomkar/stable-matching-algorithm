@@ -31,8 +31,8 @@ class StableMatching:
 			# take the inverse index and divide by length of list (subtract 1 for base 0)
 			bigScore += float(len(self.bigs[big]) - 1 - self.bigs[big].index(little))/(len(self.bigs[big]) - 1) 
 		
-		print("Littles Accuracy: ", littleScore/length)
-		print("Bigs Accuracy: ", bigScore/length)	
+		print("Littles Accuracy: " + "{0:.0%}".format(littleScore/length))
+		print("Bigs Accuracy: " + "{0:.0%}".format(bigScore/length))	
 					
 	def match(self):
 		'''

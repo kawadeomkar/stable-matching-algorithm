@@ -24,16 +24,28 @@ def printHelp():
 
 # print out preference list, formatted
 def printFormattedPrefList(bigs, littles):
+	# print bigs preferences, join list with a comma and convert to string
 	print("---BIGS PREFERENCES---")
 	for big, prefList in bigs.items():
 		littlesList = ", ".join(prefList)
 		print(big + ": " + littlesList)
 				
+	# print littles preferences, join list with a comma and convert to string
 	print("---LITTLES PREFERENCES---")
 	for little, prefList in littles.items():
 		bigsList = ", ".join(prefList)
 		print(little+ ": " + bigsList)
 
+# print out matches, input: dictionary of matches
+def printMatches(matches):
+	print("---MATCH RESULTS---")
+	for match1, match2 in matches.items():
+		print(match1 + " : " + match2)
+	
+
+# save match results to output file
+def saveToOutfile(outfile):
+	print()
 
 if __name__ == '__main__':
 	opts = ''
@@ -63,10 +75,12 @@ if __name__ == '__main__':
 					inputFile2 = ifiles[1]
 			elif '--ofile' in opt:
 				outputFile = opt[1]
-
+		# preprocess list 
 		bigList, littleList = preprocess(inputFile1, inputFile2)
 		printFormattedPrefList(bigList, littleList)	
-		
+		# instatiate class with big and little preferences, compute matches and print	
 		matcher = StableMatching(bigList, littleList)
-		print(matcher.match())
+		matches = matcher.match()
+		printMatches(matches)
+		# print accuracy of matches
 		matcher.accuracy()
