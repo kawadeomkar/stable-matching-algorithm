@@ -15,6 +15,5 @@ kendrick:rihanna, arianna, beyonce, nicki, kylie
 
 ## Running the file
 The demo file (demo.py) is called with executing:
-'''
 python demo.py --ifile=<inputfile>,<inputfile> --ofile=<outputfile>
-'''
+
